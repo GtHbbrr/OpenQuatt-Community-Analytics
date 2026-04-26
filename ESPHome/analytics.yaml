@@ -20,6 +20,21 @@ sensor:
       } else {
         return NAN;
       }
+  # 1. Dynamische Graaddag Factor (Live berekening)
+  - platform: template
+    name: "Dynamische Graaddag Factor"
+    id: dynamic_dd_factor
+    unit_of_measurement: "°C"
+    lambda: |-
+      float setpoint = id(thermostat_setpoint).state; // Pas ID aan naar jouw sensor
+      float t_amb = id(outside_temperature).state;
+      return (setpoint > t_amb) ? (setpoint - t_amb) : 0.0;
+  
+  # 2. Gecumuleerd Elektrisch Verbruik (Daily)
+  - platform: total_daily_energy
+    name: "Daily Energy Consumption"
+    id: daily_energy
+    power_id: electrical_power # Jouw Watt sensor      
 
 mqtt:
   broker: broker.openheatpumps.nl
@@ -36,4 +51,7 @@ interval:
             root["flow"] = id(pump_flow).state;
             root["delta_t"] = id(water_out_temperature).state - id(water_in_temperature).state;
             root["p_elek"] = id(electrical_power).state;
+            root["dd_factor"] = id(dynamic_dd_factor).state;
+            root["daily_kwh"] = id(daily_energy).state;
+            root["setpoint"] = id(thermostat_setpoint).state;            
 
