@@ -7,17 +7,24 @@ condition:
   - condition: state
     entity_id: sensor.quatt_heat_pump_working_mode
     state: "Heating"
+
 action:
   - service: mqtt.publish
     data:
-      topic: >
-        {% set uid = device_id('sensor.quatt_water_out_temperature') %}
-        analytics/ha_{{ uid | hash('sha256') | truncate(12, True, '') }}/telemetry
+      topic: "analytics/ha_{{ device_id('sensor.quatt_water_out_temperature') | hash('sha256') | truncate(12, True, '') }}/telemetry"
       payload: >
+        {% set t_out = states('sensor.quatt_water_out_temperature') | float(0) %}
+        {% set t_in = states('sensor.quatt_water_in_temperature') | float(0) %}
+        {% set t_amb = states('sensor.quatt_outside_temperature') | float(0) %}
+        {% set setpoint = state_attr('climate.thermostat', 'temperature') | float(18) %}
         {
-          "water_out": {{ states('sensor.quatt_water_out_temperature') | float(0) }},
-          "water_in": {{ states('sensor.quatt_water_in_temperature') | float(0) }},
-          "outside_temp": {{ states('sensor.quatt_outside_temperature') | float(0) }},
+          "water_out": {{ t_out }},
+          "water_in": {{ t_in }},
+          "delta_t": {{ (t_out - t_in) | round(2) }},
+          "outside_temp": {{ t_amb }},
           "power_electrical": {{ states('sensor.quatt_power_consumption') | float(0) }},
-          "cop": {{ states('sensor.quatt_calculated_cop') | float(0) }}
+          "dd_factor": {{ ([0, (setpoint - t_amb)] | max) | round(2) }},
+          "setpoint": {{ setpoint }},
+          "daily_kwh": {{ states('sensor.quatt_daily_energy_consumption') | float(0) }}
         }
+        
