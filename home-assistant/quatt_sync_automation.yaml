@@ -1,0 +1,23 @@
+alias: "Quatt Analytics Sync (HA-versie)"
+description: "Verstuurt anonieme data naar de OpenHeatPumps.nl broker"
+trigger:
+  - platform: time_pattern
+    minutes: "/5"
+condition:
+  - condition: state
+    entity_id: sensor.quatt_heat_pump_working_mode
+    state: "Heating"
+action:
+  - service: mqtt.publish
+    data:
+      topic: >
+        {% set uid = device_id('sensor.quatt_water_out_temperature') %}
+        analytics/ha_{{ uid | hash('sha256') | truncate(12, True, '') }}/telemetry
+      payload: >
+        {
+          "water_out": {{ states('sensor.quatt_water_out_temperature') | float(0) }},
+          "water_in": {{ states('sensor.quatt_water_in_temperature') | float(0) }},
+          "outside_temp": {{ states('sensor.quatt_outside_temperature') | float(0) }},
+          "power_electrical": {{ states('sensor.quatt_power_consumption') | float(0) }},
+          "cop": {{ states('sensor.quatt_calculated_cop') | float(0) }}
+        }
