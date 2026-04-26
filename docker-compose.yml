@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # 1. De Database: Slaat alle sensordata op
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=verander-dit-wachtwoord
+      - DOCKER_INFLUXDB_INIT_ORG=quatt_community
+      - DOCKER_INFLUXDB_INIT_BUCKET=heatpump_data
+
+  # 2. De Verwerker: Ontvangt MQTT data en zet het in de database
+  telegraf:
+    image: telegraf:latest
+    container_name: telegraf
+    depends_on:
+      - influxdb
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    environment:
+      - INFLUX_TOKEN=jouw-influx-token-hier
+
+  # 3. Het Dashboard: Visualisatie voor de community
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - influxdb
+    volumes:
+      - grafana-data:/var/lib/grafana
+
+volumes:
+  influxdb-data:
+  grafana-data:
