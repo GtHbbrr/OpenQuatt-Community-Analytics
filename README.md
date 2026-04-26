@@ -4,9 +4,9 @@ Dit project heeft als doel om de prestaties van Quatt-warmtepompen binnen de com
 
 ## 🎯 Waarom meedoen aan de Nulmeting?
 
-De meeste van onze installaties draaien op de standaardinstellingen van de leverancier. Maar hoe presteert die standaard nu echt in verschillende woningen?
+De meeste van onze installaties draaien op de standaardinstellingen van de Quatt CiC. Maar hoe presteert die standaard nu echt in verschillende woningen?
 
-- **Objectief Benchmarken:** Vergelijk jouw temperaturen, drukken en verbruik met de 'gemiddelde' Quatt van de community onder vergelijkbare weersomstandigheden.
+- **Objectief Benchmarken:** Vergelijk temperaturen, drukken en verbruik met de 'gemiddelde' Quatt van de community onder vergelijkbare weersomstandigheden.
 - **Vermeende Afwijkingen Checken:** Zie je vreemd pendelgedrag of een onverklaarbare defrost? In het dashboard zie je direct of dit een bekend fenomeen is of dat jouw systeem afwijkt van de norm.
 - **De APK-check (Carnot-score):** We gebruiken een technische score die de invloed van het weer wegfiltert. Zo zie je puur de technische conditie van je machine (vervuilde verdamper? koudemiddel ok?).
 - **Huis-efficiëntie:** Dankzij de metric 'kWh per Dynamische Graaddag' (gecorrigeerd op jouw thermostaat-setpoint) zie je eindelijk hoe efficiënt jouw woning met de geleverde warmte omgaat.
