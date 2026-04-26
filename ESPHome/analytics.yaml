@@ -1,0 +1,39 @@
+substitutions:
+  # Genereer een uniek ID voor anonieme analytics
+  node_id: "quatt_${device_name}_${mac_address_short}"
+
+sensor:
+  - platform: template
+    name: "Carnot Efficiency Score"
+    id: carnot_score
+    unit_of_measurement: "%"
+    accuracy_decimals: 1
+    lambda: |-
+      float t_out = id(water_out_temperature).state; 
+      float t_amb = id(outside_temperature).state;   
+      float cop = id(live_cop).state;         
+      
+      if (id(compressor_speed).state > 5 && (t_out - t_amb) > 2.0) {
+        float carnot_max = (t_out + 273.15) / (t_out - t_amb);
+        float efficiency = (cop / (0.40 * carnot_max)) * 100.0;
+        return (efficiency > 200.0) ? 100.0 : efficiency;
+      } else {
+        return NAN;
+      }
+
+mqtt:
+  broker: broker.openheatpumps.nl
+  port: 1883
+  topic_prefix: "analytics/${node_id}"
+
+interval:
+  - interval: 5min
+    then:
+      - mqtt.publish_json:
+          topic: "analytics/${node_id}/telemetry"
+          payload: |-
+            root["carnot"] = id(carnot_score).state;
+            root["flow"] = id(pump_flow).state;
+            root["delta_t"] = id(water_out_temperature).state - id(water_in_temperature).state;
+            root["p_elek"] = id(electrical_power).state;
+
