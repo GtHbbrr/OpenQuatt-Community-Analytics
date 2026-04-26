@@ -1,5 +1,5 @@
 alias: "Quatt Analytics Sync (HA-versie)"
-description: "Verstuurt anonieme data naar de OpenHeatPumps.nl broker"
+description: "Verstuurt anonieme data naar de OpenHeatPumps.nl broker"  # Zodra de server live is, wordt dit het adres
 trigger:
   - platform: time_pattern
     minutes: "/5"
