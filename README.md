@@ -18,6 +18,18 @@ Deelname is veilig en drempelloos (gebaseerd op het OpenAmber-model):
 2. **Geografische vervaging:** We gebruiken alleen de eerste cijfers van je postcode voor de koppeling met lokale KNMI-weerdata.
 3. **Transparantie:** Alle code die data verstuurt is open-source en vooraf door jou in te zien in deze repository.
 
+# ⚠️ STATUS: INFRASTRUCTUUR IN OPBOUW (HULP GEZOCHT!)
+
+**Welkom bij OpenHeatPumps!** De visie voor dit analytics platform staat, de metrics (zoals de Carnot-score) zijn gedefinieerd en het domein **openheatpumps.nl** is vastgelegd.
+
+### 🛠️ Gezocht: Server & Dashboard Experts
+Omdat de focus van dit project momenteel ligt op de thermodynamica en de Quatt-data, zoeken we hulp vanuit de community voor de technische fundering:
+- **Hosting:** Wie kan/wil een centrale MQTT-broker en InfluxDB hosten?
+- **Dashboarding:** Wie helpt mee met het bouwen van de Grafana-dashboards?
+- **Automatisering:** Wie wil de backend-scripts voor data-verwerking verfijnen?
+
+**Heb je de skills?** Open een Issue of laat van je horen in de Quatt topics op Tweakers. De YAML-snippets in deze repo zijn momenteel 'placeholders' tot de broker-URL actief is.
+
 ## 🛠️ Hoe doe ik mee?
 
 Het platform ondersteunt twee manieren van aanleveren via **openheatpumps.nl**:
