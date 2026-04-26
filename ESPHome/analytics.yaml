@@ -37,7 +37,7 @@ sensor:
     power_id: electrical_power # Jouw Watt sensor      
 
 mqtt:
-  broker: broker.openheatpumps.nl
+  broker: broker.openheatpumps.nl   # Zodra de server live is, wordt dit het adres
   port: 1883
   topic_prefix: "analytics/${node_id}"
 
